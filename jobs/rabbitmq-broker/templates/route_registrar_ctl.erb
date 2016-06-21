@@ -109,7 +109,10 @@ start)
   mkdir -p $RUN_DIR
   mkdir -p $LOG_DIR
   chown vcap:vcap $LOG_DIR
+
+  <% if_p("syslog_aggregator.address", "syslog_aggregator.port") do %>
   /usr/sbin/service rsyslog restart
+  <% end %>
 
   pid_guard $PIDFILE $JOB_NAME
   echo $$ > $PIDFILE
